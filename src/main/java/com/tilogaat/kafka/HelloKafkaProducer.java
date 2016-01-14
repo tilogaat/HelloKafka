@@ -1,9 +1,7 @@
-package com.spnotes.kafka;
+package com.tilogaat.kafka;
 
-import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
-import scala.collection.Seq;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,8 +11,7 @@ import java.util.Properties;
  * Created by user on 8/4/14.
  */
 public class HelloKafkaProducer {
-    final static String TOPIC = "pythontest";
-
+    final static String TOPIC = "tilotopic2";
 
     public static void main(String[] argv){
         Properties properties = new Properties();
@@ -22,9 +19,13 @@ public class HelloKafkaProducer {
         properties.put("serializer.class","kafka.serializer.StringEncoder");
         ProducerConfig producerConfig = new ProducerConfig(properties);
         kafka.javaapi.producer.Producer<String,String> producer = new kafka.javaapi.producer.Producer<String, String>(producerConfig);
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        KeyedMessage<String, String> message =new KeyedMessage<String, String>(TOPIC,"Test message from java program " + sdf.format(new Date()));
-        producer.send(message);
+
+       // for (int i = 0 ; i < 200; i++) {
+            SimpleDateFormat sdf = new SimpleDateFormat();
+            KeyedMessage<String, String> message = new KeyedMessage<String, String>(TOPIC, "Test message from java program " + sdf.format(new Date()));
+            producer.send(message);
+        //}
+
         producer.close();
     }
 }
