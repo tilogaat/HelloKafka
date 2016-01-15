@@ -20,16 +20,19 @@ import java.util.concurrent.*;
  */
 public class HelloKafkaConsumer{
     final static String clientId = "SimpleConsumerDemoClient";
-    final static String TOPIC = "tilotopic2";
+    static String TOPIC = "test";
     static ConsumerConnector consumerConnector;
     Timer timer = new Timer();
     static ExecutorService executorService = Executors.newFixedThreadPool(5);
+    static int count = 0;
 
     public static void main(String[] argv) throws Exception {
 
         try {
-            HelloKafkaConsumer helloKafkaConsumer = new HelloKafkaConsumer();
-            //helloKafkaConsumer.start();
+            HelloKafkaConsumer helloKafkaConsumer = new HelloKafkaConsumer(argv[1]);
+            count = 0;
+            TOPIC = argv[0];
+            System.out.println("Starting test at :"+System.currentTimeMillis()+": value dequeued is :"+count);
             Future<String> future = executorService.submit(new Callable<String>() {
                 public String call() throws Exception {
                     run();
@@ -37,17 +40,18 @@ public class HelloKafkaConsumer{
                 }
             });
 
-            String result = future.get(20, TimeUnit.MINUTES);
+            String result = future.get(60, TimeUnit.SECONDS);
         } catch (TimeoutException tex) {
-            System.out.println("Test finished!");
+            System.out.println("Finished test at :"+System.currentTimeMillis()+": value dequeued is :"+count);
+          //  executorService.shutdown();
             System.exit(0);
         }
     }
 
-    public HelloKafkaConsumer(){
+    public HelloKafkaConsumer(String zookeeper){
         Properties properties = new Properties();
-        properties.put("zookeeper.connect","localhost:2181");
-        properties.put("group.id","test-group-tilo1");
+        properties.put("zookeeper.connect",zookeeper);
+        properties.put("group.id", "tilo-consumer-1");
         ConsumerConfig consumerConfig = new ConsumerConfig(properties);
         consumerConnector = Consumer.createJavaConsumerConnector(consumerConfig);
     }
@@ -60,8 +64,8 @@ public class HelloKafkaConsumer{
         final KafkaStream<byte[], byte[]> stream =  consumerMap.get(TOPIC).get(0);
         ConsumerIterator <byte[], byte[]> it = stream.iterator();
         while(it.hasNext()) {
-            System.out.println("Reached here");
-            System.out.println(new String(it.next().message()));
+            count++;
+            System.out.println(it.next().message());
         }
     }
 
