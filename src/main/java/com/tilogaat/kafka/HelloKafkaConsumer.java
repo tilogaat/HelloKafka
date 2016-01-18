@@ -23,8 +23,8 @@ public class HelloKafkaConsumer{
     static String TOPIC = "test";
     static ConsumerConnector consumerConnector;
     Timer timer = new Timer();
-    static ExecutorService executorService = Executors.newFixedThreadPool(5);
-    static int count = 0;
+    static ExecutorService executorService = Executors.newSingleThreadExecutor();
+    static long count = 0;
 
     public static void main(String[] argv) throws Exception {
 
@@ -32,15 +32,17 @@ public class HelloKafkaConsumer{
             HelloKafkaConsumer helloKafkaConsumer = new HelloKafkaConsumer(argv[1]);
             count = 0;
             TOPIC = argv[0];
+            final boolean toLog = Boolean.parseBoolean(argv[2]);
+
             System.out.println("Starting test at :"+System.currentTimeMillis()+": value dequeued is :"+count);
             Future<String> future = executorService.submit(new Callable<String>() {
                 public String call() throws Exception {
-                    run();
+                    run(toLog);
                     return "Dequeued all messages from kafka";
                 }
             });
 
-            String result = future.get(60, TimeUnit.SECONDS);
+            String result = future.get(30, TimeUnit.SECONDS);
         } catch (TimeoutException tex) {
             System.out.println("Finished test at :"+System.currentTimeMillis()+": value dequeued is :"+count);
           //  executorService.shutdown();
@@ -57,7 +59,7 @@ public class HelloKafkaConsumer{
     }
 
     //@Override
-    public static void run() {
+    public static void run(boolean toLog) {
         Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
         topicCountMap.put(TOPIC, new Integer(1));
         Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumerConnector.createMessageStreams(topicCountMap);
@@ -65,7 +67,9 @@ public class HelloKafkaConsumer{
         ConsumerIterator <byte[], byte[]> it = stream.iterator();
         while(it.hasNext()) {
             count++;
-            System.out.println(it.next().message());
+            if (toLog) {
+                System.out.println(new String(it.next().message()));
+            }
         }
     }
 

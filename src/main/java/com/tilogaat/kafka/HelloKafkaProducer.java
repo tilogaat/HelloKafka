@@ -11,12 +11,12 @@ import java.util.Properties;
  * Created by user on 8/4/14.
  */
 public class HelloKafkaProducer {
-    static String TOPIC = "tilotopic2";
+    static String TOPIC = "minkle";
 
     public static void main(String[] argv){
         TOPIC=argv[0];
         Properties properties = new Properties();
-        System.out.println(argv[1]);
+        //System.out.println(argv[1]);
         properties.put("metadata.broker.list", argv[1]); //localhost:9092
         properties.put("serializer.class","kafka.serializer.StringEncoder");
         ProducerConfig producerConfig = new ProducerConfig(properties);
