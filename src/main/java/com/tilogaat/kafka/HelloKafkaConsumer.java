@@ -66,9 +66,11 @@ public class HelloKafkaConsumer{
         final KafkaStream<byte[], byte[]> stream =  consumerMap.get(TOPIC).get(0);
         ConsumerIterator <byte[], byte[]> it = stream.iterator();
         while(it.hasNext()) {
+            String message = new String(it.next().message());
+
             count++;
             if (toLog) {
-                System.out.println(new String(it.next().message()));
+                System.out.println(message);
             }
         }
     }
