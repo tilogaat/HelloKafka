@@ -8,6 +8,10 @@ import scala.Int;
 import java.util.*;
 import java.util.concurrent.*;
 
+/*
+Taken from
+https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example
+ */
 public class ConsumerGroupExample {
     private final ConsumerConnector consumer;
     private final String topic;
@@ -32,7 +36,7 @@ public class ConsumerGroupExample {
         }
     }
 
-    public void run(int a_numThreads) {
+    public void run(int a_numThreads, boolean toLog) {
         Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
         topicCountMap.put(topic, new Integer(a_numThreads));
         final List<Future<Integer>> futures = new ArrayList<Future<Integer>>();
@@ -47,7 +51,7 @@ public class ConsumerGroupExample {
         //
         int threadNumber = 0;
         for (final KafkaStream stream : streams) {
-            futures.add(executor.submit(new ConsumerTest(stream, threadNumber)));
+            futures.add(executor.submit(new ConsumerTest(stream, threadNumber, toLog)));
             threadNumber++;
         }
     }
@@ -70,7 +74,7 @@ public class ConsumerGroupExample {
         int threads = Integer.parseInt(args[3]);
 
         ConsumerGroupExample example = new ConsumerGroupExample(zooKeeper, groupId, topic);
-        example.run(threads);
+        example.run(threads, Boolean.parseBoolean(args[4]));
 
         try {
             Thread.sleep(20000);

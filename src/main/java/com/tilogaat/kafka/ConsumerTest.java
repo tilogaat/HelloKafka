@@ -5,13 +5,18 @@ import kafka.consumer.KafkaStream;
 
 import java.util.concurrent.Callable;
 
+/*
+Taken from https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example
+ */
 public class ConsumerTest implements Callable<Integer> {
     private KafkaStream m_stream;
     private int m_threadNumber;
+    private boolean toLog;
 
-    public ConsumerTest(KafkaStream a_stream, int a_threadNumber) {
+    public ConsumerTest(KafkaStream a_stream, int a_threadNumber, boolean tolog) {
         m_threadNumber = a_threadNumber;
         m_stream = a_stream;
+        toLog = tolog;
     }
 
     public Integer call() {
@@ -19,7 +24,9 @@ public class ConsumerTest implements Callable<Integer> {
         int count = 0;
         while (it.hasNext()) {
             String message = new String(it.next().message());
-            //System.out.println("Thread " + m_threadNumber + ": " + message);
+            if (toLog) {
+                System.out.println("Thread " + m_threadNumber + ": " + message);
+            }
             count++;
         }
 
