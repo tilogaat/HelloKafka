@@ -99,7 +99,7 @@ public class SimpleExample {
 
                 byte[] bytes = new byte[payload.limit()];
                 payload.get(bytes);
-                System.out.println(String.valueOf(messageAndOffset.offset()) + ": " + new String(bytes, "UTF-8"));
+                System.out.println(String.valueOf(messageAndOffset.offset())); //": " + new String(bytes, "UTF-8"));
                 numRead++;
                 a_maxReads--;
             }
