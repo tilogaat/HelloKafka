@@ -13,6 +13,10 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
+/*
+https://cwiki.apache.org/confluence/display/KAFKA/0.8.0+SimpleConsumer+Example
+ */
 public class SimpleExample {
     public static void main(String args[]) {
         SimpleExample example = new SimpleExample();
