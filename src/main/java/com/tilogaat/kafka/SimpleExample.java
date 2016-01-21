@@ -35,7 +35,7 @@ public class SimpleExample {
             for (int i =0 ; i< num_partitions; i++) {
                 executor.submit(new SimpleConsumerRunnable(seeds, port, topic, i, i, maxReads));
             }
-            
+
             //example.su(maxReads, topic, partition, seeds, port);
         } catch (Exception e) {
             System.out.println("Oops:" + e);

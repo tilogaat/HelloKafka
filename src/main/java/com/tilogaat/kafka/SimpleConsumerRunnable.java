@@ -100,7 +100,7 @@ public class SimpleConsumerRunnable implements Callable<Integer> {
 
                 byte[] bytes = new byte[payload.limit()];
                 payload.get(bytes);
-                System.out.println(String.valueOf(messageAndOffset.offset()) + ": " + new String(bytes, "UTF-8"));
+                System.out.println("Thread number: "+this.a_threadnumber+"- Offset:"+String.valueOf(messageAndOffset.offset())); // + ": " + new String(bytes, "UTF-8"));
                 numRead++;
                 a_maxReads--;
             }
@@ -113,7 +113,7 @@ public class SimpleConsumerRunnable implements Callable<Integer> {
             }
         }
 
-        System.out.println("Thread number -"+this. a_threadnumber+": End time: "+sdf.format(new Date()));
+        System.out.println("Thread number - "+this. a_threadnumber+": End time: "+sdf.format(new Date()));
 
         if (consumer != null) consumer.close();
 
