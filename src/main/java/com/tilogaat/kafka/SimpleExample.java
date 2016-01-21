@@ -29,7 +29,9 @@ public class SimpleExample {
         List<String> seeds = new ArrayList<String>();
         seeds.add(args[3]);
         int port = Integer.parseInt(args[4]);
+        int timeout = Integer.parseInt(args[5]);
 
+        System.out.println("Pulling data from partitions :"+ num_partitions);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
         System.out.println("Start time: "+sdf.format(new Date()));
 
@@ -45,7 +47,7 @@ public class SimpleExample {
         }
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(timeout * 1000);
         } catch (InterruptedException ie) {
 
         }
