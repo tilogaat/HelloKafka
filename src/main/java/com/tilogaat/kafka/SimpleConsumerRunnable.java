@@ -57,9 +57,6 @@ public class SimpleConsumerRunnable implements Callable<Integer> {
 
         int numErrors = 0;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
-        System.out.println("Thread number -"+this. a_threadnumber+": Start time: "+sdf.format(new Date()));
-
         while (a_maxReads > 0) {
             if (consumer == null) {
                 consumer = new SimpleConsumer(leadBroker, a_port, 100000, 64 * 1024, clientName);
@@ -112,8 +109,6 @@ public class SimpleConsumerRunnable implements Callable<Integer> {
                 }
             }
         }
-
-        System.out.println("Thread number - "+this. a_threadnumber+": End time: "+sdf.format(new Date()));
 
         if (consumer != null) consumer.close();
 
