@@ -56,6 +56,8 @@ public class SimpleConsumerRunnable implements Callable<Integer> {
         long readOffset = getLastOffset(consumer,a_topic, a_partition, kafka.api.OffsetRequest.EarliestTime(), clientName);
 
         int numErrors = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
+        System.out.println("Threadnumber: "+this.a_threadnumber+"- Start time: "+sdf.format(new Date()));
 
         while (a_maxReads > 0) {
             if (consumer == null) {
@@ -111,6 +113,8 @@ public class SimpleConsumerRunnable implements Callable<Integer> {
         }
 
         if (consumer != null) consumer.close();
+
+        System.out.println("Threadnumber: "+this.a_threadnumber+" - End time: "+sdf.format(new Date()));
 
         return 0;
     }
