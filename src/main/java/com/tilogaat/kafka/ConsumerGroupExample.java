@@ -74,17 +74,14 @@ public class ConsumerGroupExample {
         String topic = args[2];
         int threads = Integer.parseInt(args[3]);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
-        System.out.println("Start time: "+sdf.format(new Date()));
         ConsumerGroupExample example = new ConsumerGroupExample(zooKeeper, groupId, topic);
         example.run(threads, Boolean.parseBoolean(args[4]));
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(15000);
         } catch (InterruptedException ie) {
 
         }
-        System.out.println("End time: "+sdf.format(new Date()));
 
         example.shutdown();
     }

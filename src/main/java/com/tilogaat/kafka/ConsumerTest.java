@@ -3,6 +3,8 @@ package com.tilogaat.kafka;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.Callable;
 
 /*
@@ -20,6 +22,8 @@ public class ConsumerTest implements Callable<Integer> {
     }
 
     public Integer call() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
+        System.out.println("Threadnumber: " + m_threadNumber+ "Start time: "+sdf.format(new Date()));
         ConsumerIterator<byte[], byte[]> it = m_stream.iterator();
         int count = 0;
         while (it.hasNext()) {
@@ -31,6 +35,8 @@ public class ConsumerTest implements Callable<Integer> {
         }
 
         System.out.println("Threadnumber: " + m_threadNumber+ " - Count: "+count);
+        System.out.println("Threadnumber: " + m_threadNumber+ "End time: "+sdf.format(new Date()));
+
         return count;
     }
 }
