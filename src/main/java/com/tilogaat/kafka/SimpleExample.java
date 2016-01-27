@@ -32,8 +32,8 @@ public class SimpleExample {
         int num_partitions = args.length - 5;
 
         System.out.println("Pulling data from partitions :"+ num_partitions);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
-        System.out.println("Start time: "+sdf.format(new Date()));
+       // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
+       // System.out.println("Start time: "+sdf.format(new Date()));
 
         ExecutorService executor = Executors.newFixedThreadPool(num_partitions);
         try {
@@ -54,7 +54,7 @@ public class SimpleExample {
 
         }
 
-        System.out.println("End time: "+sdf.format(new Date()));
+       // System.out.println("End time: "+sdf.format(new Date()));
 
         executor.shutdown();
     }
